@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "student_communication.css" %>
+    <%= javascript_include_tag('teacher.js') %>
+
+    <title>communications</title>
+</head>
+<body>
+    <nav class="navbar">
+        <%= link_to student_home_url(CF: params[:CF]), class: "link-profile no-underline" do %>
+            <label class="writ"> Classroom: 
+            <%= @student.student_class_code %>
+            </label>
+        <% end %>
+        <%= link_to student_profile_url(CF: params[:CF]), class: "link-profile no-underline" do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+      </nav>
+    <div class="student-home-communication">
+        <label class="student-title-communication"> Communications </label>
+        <div class="student-communication-container">
+            <% @news.each do |communication| %>
+               <div class="student-communication">
+                   <div class="student-upper-communication">
+                       <label class="student-number-comm">Communication n <%=communication.id%></label>
+                       <label class="student-number-comm"><%=school_name=School.where(code: communication.school_code).pluck(:name).uniq.join %> </label>
+                       <label class="student-number-comm"><%= communication.date.strftime('%Y/%m/%d')%> </label>
+                   </div>
+                   <div class="student-bottom-communication">
+                       <p><%=communication.title%></p>
+                       <%=communication.text%>
+                   </div>
+               </div>
+            <% end %>
+        </div> 
+    </div>
+</body>
+</html>

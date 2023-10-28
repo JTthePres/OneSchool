@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "student_grades.css" %>
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+        <%= link_to student_home_url(CF: params[:CF]), class: "link-profile no-underline" do %>
+            <label class="writ"> Classroom: 
+            <%= @student.student_class_code %>
+            </label>
+        <% end %>
+        <%= link_to student_profile_url(CF: params[:CF]), class: "link-profile no-underline" do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+      </nav>
+    <div class="">
+    
+      <div class="student-grade-container-2">
+      <label class="student-title-grade-2">Inserted grades</label>
+      <% @student = Student.find_by(CF: params[:CF])%>
+      <% @grades = Grade.where(CFstudent: @student.CF)%>
+      <% @grades.each do |grade| %>
+        <div class="student-grade">
+          <div class="student-value-container">
+            <%= grade.value %>
+          </div>
+          <div class="student-grade-field-container">
+            <label class="student-grade-label"><%= grade.subject_name%></label>
+            <label class="student-grade-label"><%= name=@student.name %> 
+            <%= surname=@student.surname %></label>
+            <label class="student-grade-label"><%= grade.date.strftime('%Y/%m/%d') %></label>
+          </div>
+        </div>
+      <% end %> 
+    
+    </div>
+
+</body>
+</html>

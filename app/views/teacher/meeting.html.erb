@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <%= stylesheet_link_tag "teacher_meeting.css" %>
+   <script src='https://localhost:8000/external_api.js'></script>
+    <title>Meeting</title>
+</head>
+<body> 
+    <nav class="navbar">
+        <%= link_to teacher_home_url, class: "link-profile no-underline" do %>
+            <div class="writ">
+                Home
+            </div>
+        <% end %>
+        <%= link_to teacher_profile_url, class: "link-profile no-underline" do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>  
+      </nav>
+    <div class="home-meeting">
+        <label class="title-meeting">List of incumbent meetings</label>
+
+        <div class="meeting-container">
+            <% @meetings.each do |meeting| %>
+
+                <div class="meeting-box">
+                    <div class="upper-meeting">
+                           
+                           <label class="number-meet"><%=school_name=School.where(code: @teacher.school_code).pluck(:name).uniq.join %> </label>
+                           <label class="number-meet"><%= meeting.date.strftime('%Y/%m/%d %A %H:%M')%> </label>
+                       </div>
+                       <div class="bottom-meeting">
+                       <label class="number-meet">Riunione con <%= Family.where(CF: meeting.CFfamily).pluck(:name).uniq.join %> 
+                                <%= Family.where(CF: meeting.CFfamily).pluck(:surname).uniq.join %></label>
+                           <div class="meeting-label">Join meeting on this link <%= link_to meeting.link, class: 'color-link' do %>go to meeting<%end%></div>
+                           
+                       </div>
+                </div>
+            <% end %>
+        </div>
+
+
+      
+    </div>
+    
+</body>
+</html>

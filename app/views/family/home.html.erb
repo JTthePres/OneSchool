@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "family_home.css" %>
+    <title>Family Home</title>
+</head>
+<body>
+    <nav class="navbar-family">
+        <%= link_to family_home_url(CF: params[:CF], CFstudent: params[:CFstudent]),class: 'link-profile no-underline' do %>
+            <div class="writ">
+                OneSchool
+            </div>
+        <% end %>
+
+        <% if $onlyChild == false%>
+            <%= link_to family_choose_url(CF: params[:CF]),class: 'link-profile no-underline' do %>
+                <div class="profile">
+                    Change student
+                </div>
+            <% end %>
+        <%end%>
+       
+
+        <%= link_to family_profile_url(CF: params[:CF], CFstudent: params[:CFstudent]),class: 'link-profile no-underline' do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+    </nav>
+
+
+    <div class="home">
+        <div class="panel-container-family">
+
+            <%= link_to family_grades_url(CF: params[:CF], CFstudent: params[:CFstudent]), class: 'no-underline' do %>
+                <div class="panel">
+                    Grades
+                </div>
+            <% end %>
+
+            <%= link_to family_absences_url(CF: params[:CF], CFstudent: params[:CFstudent]), class: 'no-underline' do %>
+            <div class="panel">
+                Absences
+            </div>
+             <% end %>
+            
+            <%= link_to family_meeting_choice_url(CF: params[:CF], CFstudent: params[:CFstudent]), class: 'no-underline' do %>
+                <div class="panel">
+                    Meeting
+                </div>
+            <% end %>
+
+
+
+            <%= link_to family_news_url(CF: params[:CF], CFstudent: params[:CFstudent]), class: 'no-underline' do %>
+            <div class="panel">
+                Communications
+            </div>
+             <% end %>
+
+            <%= link_to family_notes_url(CF: params[:CF], CFstudent: params[:CFstudent]), class: 'no-underline' do %>
+            <div class="panel">
+                Personal Notes
+            </div>
+             <% end %>
+        </div>
+    </div>
+    
+</body>
+</html>

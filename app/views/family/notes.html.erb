@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= javascript_include_tag('family.js') %>
+    <%= stylesheet_link_tag "family_notes.css" %>
+
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+        <%= link_to family_home_url(CF: params[:CF], CFstudent: params[:CFstudent]), class: "link-profile no-underline" do %>
+            <div class="writ">
+                OneSchool
+            </div>
+        <% end %>
+
+        <% if $onlyChild == false%>
+            <%= link_to family_choose_url(CF: params[:CF]), class: "link-profile no-underline" do %>
+                <div class="profile">
+                    Change student
+                </div>
+            <% end %>
+        <%end%>
+
+        <%= link_to family_profile_url(CF: params[:CF], CFstudent: params[:CFstudent]), class: "link-profile no-underline" do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+    </nav>
+
+
+    <div class="student-notes-title">Student notes</div>
+    <div class="notes-panel">
+        <div class="student-notes-body">  
+        <table class="notes-table">
+            <thead class="notes-table">
+                <tr>
+                <th> Code</th>
+                <th> Teacher</th>
+                <th> Date</th>
+                <th> Deatils</th>
+                <th> Justify</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <div id="popup" class="popup">
+        
+                </div>      
+
+                <% @notes.each do |note| %>
+                    <tr>
+
+                        <td><%= note.id %></td>
+                        
+
+                        <% @teacher = Teacher.find_by(CF: note.CFprof)%>
+                        <td>
+                        <%= @teacher.name %>
+                        <%= @teacher.surname %>
+                        <br>
+                        </td>
+
+                        <td><%= note.date.strftime('%d/%m/%Y')  %></td>
+
+                        <td class="details-popup">
+                        <button class="button-submit" onclick="popup('<%= escape_javascript(note.description) %>');"> details </button>
+
+                        </td>
+
+                        <% @justif = note.justified %>
+                        <td>
+                        <% if !@justif %>
+                            <%= form_with model: @family, url: family_justify_note_url, class: 'form-booked', method: :post do |form| %>
+                                <%= hidden_field_tag :CF, params[:CF] %>
+                                <%= hidden_field_tag :CFprof, params[:CFprof] %>
+                                <%= hidden_field_tag :CFstudent, params[:CFstudent] %>
+                                <%= hidden_field_tag :id, note.id %>
+
+                                <%# select_tag :CFstudent, options_for_select(@student.map { |student| ["#{student[:name]} #{student[:surname]}", student[:CF]] }), class: "student-field", multiple: true %>
+                                <%= form.submit "Justify", class: "button-submit" %>
+                            <% end %>
+                        <%end%>
+                        <br>
+                        </td>
+                  
+                    
+                    </tr>
+
+                <% end %>
+
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+</body>
+</html>
+
+    

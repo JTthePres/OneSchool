@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "admin_manage.css" %>
+    <%= javascript_include_tag('admin.js') %>
+
+    <title>Document</title>
+</head>
+<body>
+    <div id="popupContainer"></div>
+    <nav class="navbar">
+      <div class="writ">
+        OneSchool
+      </div>
+      <%= link_to admin_profile_url, class: 'link-profile no-underline'  do %>
+      <div class="profile">
+        Profile
+      </div>
+      <% end %>
+    </nav>
+    <div class="admin-home">
+        <label class="title">Manage school and school staff's accounts</label>
+        <% flash.each do |key, message| %>
+            <div class="flash <%= key %>">
+              <% if key !="alertt" && key != "noticee"%>
+              <script>show_panel("second-panel")</script>
+              <%else%>
+              <script>show_panel("first-panel")</script>
+              <%end%>
+                <%= message %>
+            </div>
+        <% end %>
+        <div class="admin-upper-bottons">
+            <div class="admin-up-botton" id="first-botton" onclick="show_panel('first-panel');">
+                school
+            </div>
+            <div class="admin-up-botton" id="second-botton" onclick="show_panel('second-panel');">
+                staff
+            </div>
+        </div> 
+        <div class="admin-main-panel">
+
+              <%# ################################################################################ %>
+             <%# School Panel %>
+            <div class="panel" id="first-panel" style="display:flex;">
+              <div class="select-add">
+                <%= form_with url: admin_searchschool_path, method: :get, class: 'form-search-admin' do |form| %>
+                    <%= form.label :search, "Search for name:", class: "label-field" %>
+                    <%= form.text_field :search, class: "text-field" %>
+                    <%= form.submit "Search", class: 'style-button' %>
+                <% end %> 
+                <button id="addSchoolButton" class="style-button" onclick="openSchoolForm();"> Add a New School</button>
+              </div>
+              <div id="manageAdminTableDiv">
+                <table class="tabella">
+                  <thead>
+                    <tr>
+                      <th>Address</th>
+                      <th>Name</th>
+                      <th>Code</th>
+                      <th>School Type</th>
+                      <th colspan="3"></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                      <!-- se ho applicato un filtro assegna il risultato, altrimenti mostra tutto -->
+                    <% if @ret == "NOT_FOUND"%>
+                      <% @schools="" %> 
+                      <% params[:search] =""%>
+                      <%=link_to "reset", admin_manage_path, class: 'button-link' %>
+                    <% else  %>
+                    <% if @ret.present? %>
+                      <% @schools=@ret %> 
+                      <% params[:search] =""%>
+                      <%=link_to "reset", admin_manage_path, class: 'button-link' %>
+                    <% else %>
+                      <% @schools = School.all %>
+                    <% end %>
+                    <% @schools.each do |school| %>
+                      <tr>
+                        <td class="center"><%= school.address %></td>
+                        <td class="center"><%= school.name %></td>
+                        <td class="center"><%= school.code %></td>
+                        <td class="center"><%= school.school_type %></td>
+                        <td class="center"><button class="style-button" onclick="editSchoolForm(<%= json_string= school.to_json %>);">Edit</button></td>
+                        <td class="center"> <%= form_tag admin_deleteschool_path, method: :delete do %>
+                              <%= hidden_field_tag :code, school.code %>
+                              <%= submit_tag 'Delete', class: 'style-button' %>
+                            <% end %>
+                            </td></tr>
+                        <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+                </div>
+            </div>
+
+              <%# ################################################################################### %>
+            <%# STAFF PANEL %>
+            <div class="panel" id="second-panel" style="display:none;" >
+                <div class="select-add">
+                  <%= form_with url: admin_searchstaff_path, class: 'form-search-admin', method: :get do |form| %>
+                      <%= form.label :search, "Search for School Code:", class:'label-field' %>
+                      <%= form.text_field :search, class: 'text-field' %>
+                      <%= form.submit "Search", class: 'style-button' %>
+                  <% end %> 
+                <button id="addStaffButton" class="style-button" onclick="openStaffForm();"> Add Schoolstaff Account</button>
+                </div>
+                
+                <table class="tabella">
+                    <thead>
+                        <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>CF</th>
+                        <th>Mail </th>
+                        <th>School Code</th>
+                        <th colspan="3"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                      <% if @ret_staff == "NOT_FOUND"%>
+                        <% @school_staff="" %> 
+                        <% params[:search] =""%>
+                        <%=link_to "reset", admin_manage_path, class: 'button-link'%>
+                      <script>show_panel("second-panel")</script>
+
+                      <% else  %>
+                      <% if @ret_staff.present? %>
+                        <% @school_staff=@ret_staff %> 
+                        <% params[:search] =""%>
+                        <%=link_to "reset", admin_manage_path, class: 'button-link'%>
+                        <script>show_panel("second-panel")</script>
+                      <% else %>      
+                          <% @school_staff= SchoolStaff.all%>
+                      <% end %>
+                      <% @school_staff.each do |school_staff| %>
+                        <tr>
+                            <td class="center"><%= school_staff.name %></td>
+                            <td class="center"><%= school_staff.surname %></td>
+                            <td class="center"><%= school_staff.CF %></td>
+                            <td class="center"><%= school_staff.mail %></td>
+                            <td class="center"><%= school_staff.school_code %></td>
+                            <td class="center"><button class="style-button" onclick="editStaffForm(<%= json_string= school_staff.to_json %>);">Edit</button></td>
+                            <td class="center"> <%= form_tag admin_deletestaff_path, method: :delete do %>
+                                <%= hidden_field_tag :CF, school_staff.CF %>
+                                <%= hidden_field_tag :code, school_staff.school_code %>
+                                <%= submit_tag 'Delete', class: 'style-button' %>
+                                <% end %>
+                                </td></tr>
+                             <% end %>
+                          <% end %>
+                    </tbody>
+                </table>
+                
+            </div>
+
+        </div>
+    </div> 
+
+    
+</body>
+</html>

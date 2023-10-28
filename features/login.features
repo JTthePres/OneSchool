@@ -1,0 +1,34 @@
+Feature: Staff authentication
+  Background: User presence
+    Given I am a school staff user
+    And my mail is "aldo@moro"
+    And my password is "pas"
+
+  Scenario: Successful school staff authentication
+    Given I am in the main page 
+    When I click on the panel "Schoolstaff"
+    Then I should be in the staff login page
+    When I put my mail in the mail field
+    And I put my password in the field password
+    And I press the button to login
+    Then I should be in the school staff home page
+
+  Scenario: Unsuccessful school staff authentication with wrong mail
+    Given I am in the main page 
+    When I click on the panel "Schoolstaff"
+    Then I should be in the staff login page
+    When I put the mail "aldo@mora"
+    And I put my password in the field password
+    And I press the button to login
+    Then I should be in the staff login page
+    And I should get the alert "Credenziali non valide."
+
+  Scenario: Unsuccessful school staff authentication with wrong password
+    Given I am in the main page 
+    When I click on the panel "Schoolstaff"
+    Then I should be in the staff login page
+    When I put my mail in the mail field
+    And I put the password "pass"
+    And I press the button to login
+    Then I should be in the staff login page
+    And I should get the alert "Credenziali non valide."

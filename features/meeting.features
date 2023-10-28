@@ -1,0 +1,32 @@
+Feature: Managing Meetings in Family Dashboard
+
+  Background: Successful Family Login
+    Given there is a user with email and password
+   
+
+Scenario:  Successful meeting book
+    Given I login in a family account
+    And I am on the family page to choose a student
+    When I select the option "Mario Rossi"
+    Then I should be on the family home page
+    When I click on the "Meeting" panel 
+    Then I should be on the meeting choice page
+    When I select the link "Luigi Colombo"
+    Then I should be on the meeting manage page
+    When I book a meeting on "08" "09" at "19"
+    Then I shoud have that meeting in the booked meeting panel
+    
+Scenario:  Successful meeting cancellation
+  Given I login in a family account
+    And I am on the family page to choose a student
+    When I select the option "Mario Rossi"
+    Then I should be on the family home page
+    When I click on the "Meeting" panel 
+    Then I should be on the meeting choice page
+    When I select the link "Fabio Ralli"
+    Then I should be on the meeting manage page
+    When I delete a meeting
+    Then that meeting should not exist anymore
+    And I should have the possibility to book that meeting again
+    
+

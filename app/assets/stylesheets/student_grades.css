@@ -1,0 +1,130 @@
+*{
+    margin:0;
+    padding:0;
+    background-color: white;
+}
+ 
+body{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height:100%;
+}
+
+
+
+
+
+.student-grade-container-2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    width: 500px;
+    background-color: rgb(239, 243, 245);
+    border-radius: 0px 0px 10px 10px;
+    gap: 20px;
+    padding-bottom: 30px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+
+.student-grade-label{
+    width: 100%;
+    background-color: rgb(172, 245, 255);
+    text-align: left;
+}
+
+.student-title-grade-2{
+    font-weight: 200;
+    font-size: 25px;
+    background-color:  rgb(172, 245, 255);
+    border-radius: 10px 10px 0px 0px;
+    width: 500px;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+
+
+
+.student-grade{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap:20px;
+    max-width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(172, 245, 255);
+}
+
+.student-value-container{
+    font-size: 30px;
+    background-color:  rgb(172, 245, 255);
+}
+
+.student-grade-field-container{
+    display:flex;
+    flex-direction: column;
+    gap: 2px;
+    background-color: rgb(172, 245, 255);
+}
+
+.button-submit{
+    font-size: 18px;
+}
+
+.navbar{
+    background-color:  rgb(172, 245, 255);
+    height: 70px;
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.writ{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 22px;
+    height: 70px;
+    margin-left: 100px;
+}
+
+
+.profile{
+    width: 100px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 22px;
+    margin-right: 100px;
+}
+ 
+.flash {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+  }
+  
+  .alert {
+    background-color: #ff0000;
+    color: #ffffff;
+  }
+  
+  .notice {
+    background-color: #00ff00;
+    color: #000000;
+  }

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h2>Confirm password change</h2>
+  <p>You have just requested a password change. Click on the link below to confirm:</p>
+  <% if @user.type=='Teacher' %>
+  <%= link_to 'Confirm password change', { controller: 'teacher', action: 'upgradepassword', CF: @user.CF, success: 'success'}, method: :get %>
+   <% elsif @user.type=='Student' %>
+  <%= link_to 'Confirm password change', { controller: 'student', action: 'upgradepassword', CF: @user.CF, success: 'success'}, method: :get %>
+  <% elsif @user.type=='SchoolStaff' %>
+  <%= link_to 'Confirm password change', { controller: 'school_staff', action: 'upgradepassword', CF: @user.CF, success: 'success'}, method: :get %>
+  <% elsif @user.type=='Family' %>
+  <%= link_to 'Confirm password change', { controller: 'family', action: 'upgradepassword', CF: @user.CF, success: 'success'}, method: :get %>
+  <% end %> 
+</body>
+</html>

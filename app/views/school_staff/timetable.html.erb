@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "staff_subject_manage.css" %>
+    <%= javascript_include_tag('staff.js') %>
+
+     <title>Document</title>
+</head>
+<body>
+<div id="popupContainer"></div>
+<nav class="navbar">
+<%= link_to school_staff_home_path(CF: params[:CF]),class: 'link-profile no-underline' do%>
+        <div class="writ">
+          OneSchool
+        </div>
+<%end%>
+        <%= link_to school_staff_profile_url(CF: params[:CF]),class: 'link-profile no-underline' do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+      </nav>
+    <div class="home">
+        <div class="upper-bottons">
+        <%= link_to school_staff_class_manage_path(CF: params[:CF]),class: 'link-profile no-underline' do %>
+            <div class="up-botton" id="first-botton" >
+              Class Manage
+            </div><%end%>
+            <%= link_to school_staff_subject_manage_path(CF: params[:CF]),class: 'link-profile no-underline' do%>
+            <div class="up-botton" id="second-botton" >
+                Subject Manage
+            </div><%end%>
+            <%= link_to school_staff_timetable_path(CF: params[:CF]),class: 'link-profile no-underline' do%>
+            <div class="up-botton" id="third-botton">
+                Timetables
+            </div><%end%>
+            </div> 
+<div class="main-panel">
+    <div class="panel" id="first-panel" style="display:flex;">
+<div class="select-add">
+
+    <%= form_with url: staff_searchtime_path, method: :get,class: 'form-search' do |form| %>
+    <%= form.label :search, "Search TimeTable for Class:" , class: "label-field"%>
+    <%= form.text_field :search %>
+    <%= form.submit "Search", class: 'style-button-small' %>
+    <%= hidden_field_tag :school, User.where(CF: params[:CF]).pluck(:school_code) %>
+    <%= hidden_field_tag :CF, params[:CF] %>
+    <% end %> 
+    </div>
+    <div class="panel" id="first-panel" style="display:flex;">
+
+    <div id="manageAdminTableDiv">
+
+
+    <% if @ret == "NOT_FOUND"%>
+    <% params[:search] =""%>
+    <%=link_to "reset", school_staff_timetable_path(CF: params[:CF])%>
+
+    <% else  %>
+    <% if @ret.present? %>   
+     <table class="tabella">
+  <thead>
+    <tr>
+      <th>MONDAY</th>
+      <th>TUESDAY</th>
+      <th>WEDNESDAY</th>
+      <th>THURSDAY</th>
+      <th>FRIDAY</th>
+      <th>SATURDAY</th>
+      <th colspan="6"></th>
+    </tr>
+  </thead>
+    <tbody>
+        <% @subjects = @ret %>
+        <% params[:search] =""%>
+    <%=link_to "Reset Search", school_staff_timetable_path(CF: params[:CF])%>
+        <% @subjects.each do |hour| %>
+    <tr>
+        <% hour.each do |day|%>
+            <td class="center"><%=day%></td>
+        <%end%>
+    </tr>
+<%end%>
+    <%end%>
+    <%end%>
+</tbody>
+    </table>
+    </div>
+    </div>
+
+</div>
+</body>
+</html>

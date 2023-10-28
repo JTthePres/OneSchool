@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "teacher_class.css" %>
+    <title>Class</title>
+</head>
+<body>
+    <nav class="navbar">
+        <%= link_to teacher_home_url, class: "link-profile no-underline" do %>
+            <div class="writ"> Classroom: 
+            <%= @classname %>
+            </div>
+        <% end %>
+        <%= link_to teacher_profile_url, class: "link-profile no-underline" do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+      </nav>
+    <div class="home">
+        <div class="panel-container">
+            <%= link_to teacher_grade_url(classroom: @classname), class: "no-underline" do %>
+            <div class="panel-class">
+                Grades
+            </div>
+             <% end %>
+            <%= link_to teacher_absence_url(classroom: @classname), class: "no-underline" do %>
+            <div class="panel-class">
+                Absences
+            </div>
+             <% end %>
+            <%= link_to teacher_timetable_url(classroom: @classname), class: "no-underline"  do %>
+            <div class="panel-class">
+                Class timetable
+            </div>
+             <% end %>
+            <%= link_to teacher_homework_url(classroom: @classname), class: "no-underline" do %>
+            <div class="panel-class">
+                Assignments
+            </div>
+             <% end %>
+            <%= link_to teacher_agenda_url(classroom: @classname), class: "no-underline" do %>
+            <div class="panel-class">
+                Agenda
+            </div>
+             <% end %>
+            <%= link_to teacher_communication_url(classroom: @classname), class: "no-underline" do %>
+            <div class="panel-class">
+                News
+            </div>
+             <% end %>
+            <%= link_to teacher_note_url(classroom: @classname), class: "no-underline" do %>
+            <div class="panel-class">
+                Personal notes
+            </div>
+             <% end %>
+             <%= link_to teacher_requestmeeting_url(classroom: @classname), class: "no-underline" do %>
+            <div class="panel-class">
+                Request meeting
+            </div>
+             <% end %>
+        </div>
+    </div>
+    
+</body>
+
+</html>

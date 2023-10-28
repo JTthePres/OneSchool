@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "family_news.css" %>
+    <%= javascript_include_tag('family.js') %>
+
+    <title>Document</title>
+</head>
+<body>
+<nav class="navbar-family">
+        <%= link_to family_home_url(CF: params[:CF], CFstudent: params[:CFstudent]), class: "link-profile no-underline"  do %>
+            <div class="writ">
+                OneSchool
+            </div>
+        <% end %>
+
+        <% if $onlyChild == false%>
+            <%= link_to family_choose_url(CF: params[:CF]), class: "link-profile no-underline"  do %>
+                <div class="profile">
+                    Change student
+                </div>
+            <% end %>
+        <%end%>
+
+        <%= link_to family_profile_url(CF: params[:CF], CFstudent: params[:CFstudent]), class: "link-profile no-underline"  do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+    </nav>
+
+    
+
+    <div class="family-home-communication">
+        <label class="family-title-communication">Communications </label>
+        <div class="family-communication-container">  
+                <% @news.each do |communication| %>
+                    <div class="family-communication">
+                        <div class="family-upper-communication">
+                        <label class="family-number-comm">Communication n <%=communication.id %></label>
+                        <label class="family-number-comm"><%=school_name=School.where(code: communication.school_code).pluck(:name).uniq.join %> </label>
+                        <label class="family-number-comm"><%= communication.date.strftime('%Y/%m/%d')%> </label>
+                        </div>
+                        <div class="family-bottom-communication">
+                       <p><%=communication.title%></p>
+                       <%=communication.text%>
+                            </div>
+                        </div>
+
+                <% end %>
+            </div>
+    </div>
+</body>
+</html>

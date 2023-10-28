@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "student_homework.css" %>
+    <%= javascript_include_tag('family.js') %>
+
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+        <%= link_to student_home_url(CF: params[:CF]), class: "link-profile no-underline" do %>
+            <label class="writ"> Classroom: 
+            <%= @student.student_class_code %>
+            </label>
+        <% end %>
+        <%= link_to student_profile_url(CF: params[:CF]), class: "link-profile no-underline" do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+      </nav>
+    <div class="home-s-homework">
+        <label class="s-homework-title">Homeworks</label>
+        <div class="select-s-homework">
+            <label class="select-s-label">Select your subject</label>
+            <%= form_tag student_homework_url, class: 'form-subject', method: :get do %>
+                <%= select_tag :subject, options_for_select(@subjects, @subject), class: "form-field", onchange: "this.form.submit()" %>
+                <%= hidden_field_tag :CF, @student.CF %>
+                <% flash.each do |key, message| %>
+                    <div class="flash <%= key %>">
+                    <%= message %>
+                    </div>
+                <% end %>
+            <% end %>
+        </div> 
+        <div class="main-s-homework">
+            <div class ="s-homework-panel">
+                <label class="title-s-homework-2">Due homeworks</label>
+                <% @homeworks.each do |homework| %>
+                     <div class="show-homework">
+                         <div class="s-homework-field-container">
+                            <div class="s-div">
+                                <%= homework.subject_name %>
+                                <div class="s-color"><%= homework.name %></div>
+                            </div>
+                           <div class="s-div">Submit within: <%=homework.date.strftime('%Y/%m/%d')%></div>
+                           <label class="s-homework-label"></label>
+                         </div>
+                         
+                         <%= form_with url: student_submit_url, class: 'form-s-homework', method: :post do |form| %>
+                            <label class="label-s-field"> Insert other members names (optional)</label>
+                            <%= form.text_field :other, class: 'text-s-field', id: 'other' %>
+                            <label class="label-s-field">Insert text</label>
+                            <%= form.text_field :mail_text, class: 'text-s-field', id: 'mail-text' %>
+                            <label class="label-s-field">Add file</label>
+                            <%= form.file_field :file, class: 'text-s-field-1', id: 'file' %> 
+                            <%= form.submit "Submit", class: 's-button' %>
+                            <%= hidden_field_tag :CF, @student.CF %>
+                            <%= hidden_field_tag :CFprof, homework.CFprof %>
+                            <%= hidden_field_tag :date, homework.date %>
+                            <%= hidden_field_tag :weekday, homework.weekday %>
+                            <%= hidden_field_tag :time, homework.time %>
+                            <%= hidden_field_tag :subject_name, homework.subject_name %>
+                         <% end %>
+                     </div>
+                <% end %>
+            </div>
+            <div class="list-homework-panel">
+                <label class="title-s-homework-2">Submitted homeworks</label>
+                <% @submitted_homeworks.each do |submitted_homework| %>
+                    <div class="s-homework">
+                        <div class="s-homework-field-container">
+                          <label class="s-homework-label"><%= submitted_homework.subject_name %></label>
+                          <label class="s-homework-label"><%= submitted_homework.name %> </label>
+                          <label class="s-homework-label"><%= submitted_homework.date.strftime('%Y/%m/%d') %></label>
+                        </div>
+                        <div class="s-homework-text">
+                            <%= submitted_homework.text%>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>        
+
+    </div>
+
+</body>
+</html>

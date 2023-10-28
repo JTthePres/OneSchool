@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneSchool</title>
+    <%= stylesheet_link_tag "home.css" %>
+</head>
+<body>
+    <nav class="navbar">
+      <label class="writ">
+        OneSchool
+      </label>
+      <%= link_to admin_login_url, class: 'link-profile no-underline'  do %>
+      <div class="profile">
+        Admin login
+      </div>
+      <% end %>
+    </nav>
+   
+    <div class="home">
+        <label class="title" id="welcome-title">Welcome to ONESCHOOL</label>
+        <label> Please select your role</label>
+        <div class="panel-container">
+            <%= link_to school_staff_login_url, class: 'no-underline'  do %>
+              <div class="panel">
+                  Schoolstaff
+              </div>
+            <% end %>  
+
+            <%= link_to family_login_url, class: 'no-underline'  do %>
+            <div class="panel">
+                Family
+            </div>
+            <% end %>
+
+            <%= link_to teacher_login_url, class: 'no-underline'  do %>
+            <div class="panel">
+                Teacher
+            </div>
+             <% end %> 
+
+            <%= link_to student_login_url, class: 'no-underline' do %>
+            <div class="panel" id="panel-student">
+              Student
+            </div>
+            <% end %>
+
+
+        </div>
+    </div>
+</body>
+</html>

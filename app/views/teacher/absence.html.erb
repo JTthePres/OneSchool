@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "teacher_absence.css" %>
+    <%= javascript_include_tag('teacher.js') %>
+
+    <title>Absences</title>
+</head>
+<body>
+    <nav class="navbar">
+        <%= link_to teacher_classroom_url(classroom: @classname), class: "link-profile no-underline" do %>
+            <div class="writ"> Classroom: 
+            <%= @classname %>
+            </div>
+        <% end %>
+        <%= link_to teacher_profile_url, class: "link-profile no-underline" do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+      </nav>
+    <div class="home-absence">
+        <label class="title-absence"> Absences </label>
+        <div class="whole-absence"> 
+            <div class="absence-container">
+                <%= form_with url: teacher_absence_url, class: 'form-absence-1', method: :get do %>
+                       <label class="absence-label">Insert a new absence</label>
+                       <%= select_tag :subject, options_for_select(@subjects, @subject), id: "select-1", onchange: "this.form.submit()" %>
+                       <%= select_tag :weekday, options_for_select(@weekdays,@weekday),  id: "select-2", onchange: "this.form.submit()" %>
+                       <%= select_tag :time, options_for_select(@times, @time),  id: "select-3", onchange: "this.form.submit()" %>
+                       <%= hidden_field_tag :classroom, @classname %>
+                       <%= hidden_field_tag :CF, @teacher.CF %>
+                       <% flash.each do |key, message| %>
+                           <div class="flash <%= key %>">
+                           <%= message %>
+                           </div>
+                       <% end %>
+                   <% end %>
+                <%= form_with url: teacher_insertabsence_url, class: 'form-absence', method: :post do |form| %>
+                    <%= hidden_field_tag :class_code, @classname %>
+                    <%= hidden_field_tag :CFprof, @teacher.CF %>
+                    <%= hidden_field_tag :school_code, @teacher.school_code %>
+                    <%= hidden_field_tag :subject_name, @subject %>
+                    <%= hidden_field_tag :weekday, @weekday %>
+                    <%= hidden_field_tag :time, @time %>
+                    <%= hidden_field_tag :justified, false %>
+                    <label class="absence-label">date</label>
+                    <%= date_field_tag :date, value: Date.today, class: 'absence-field'%>
+                    <label class="absence-label">select student</label>
+                    <%= select_tag :CFstudent, options_for_select(@students.map { |student| ["#{student[:name]} #{student[:surname]}", student[:CF]] }), class: "absence-student-field", multiple: true %>
+                    <%= form.submit "Save absence", class: "button-submit" %>
+                <% end %> 
+            </div> 
+            <div class="absence-container-2">
+                <label class="title-absence-2">Inserted absences</label>
+                <% @absences.each do |absence| %>
+                  <div class="absence">
+                    <div class="justification-container">
+                        <% if absence.justified == true%>
+                            <%= "justified" %>
+                        <% else %>
+                            <%= "not justified"%>
+                        <% end %> 
+                    </div>
+                    <div class="absence-field-container">
+                      <label class="absence-label"><%= absence.subject_name %></label>
+                      <label class="absence-label"><%= name=Student.where(student_class_code: absence.class_code, CF: absence.CFstudent).pluck(:name).uniq.join %> 
+                      <%= surname=Student.where(student_class_code: absence.class_code, CF: absence.CFstudent).pluck(:surname).uniq.join %></label>
+                      <label class="absence-label"><%= absence.date.strftime('%Y/%m/%d') %></label>
+                    </div>
+                  </div>
+                <% end %> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>

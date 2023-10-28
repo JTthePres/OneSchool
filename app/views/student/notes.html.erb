@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= javascript_include_tag('family.js') %>
+    <%= stylesheet_link_tag "student_notes.css" %>
+
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+        <%= link_to student_home_url(CF: params[:CF]), class: "link-profile no-underline" do %>
+            <label class="writ"> Classroom: 
+            <%= @student.student_class_code %>
+            </label>
+        <% end %>
+        <%= link_to student_profile_url(CF: params[:CF]), class: "link-profile no-underline" do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+      </nav>
+
+    <div class="student-notes-title">Student notes</div>
+      
+    <div class="notes-panel">
+        <div class="student-notes-body">
+        <table class="notes-table">
+            <thead>
+                <tr>
+                <th> Code</th>
+                <th> Teacher</th>
+                <th> Date</th>
+                <th> Details</th>
+                <th> Justify</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <div id="popup" class="popup">
+        
+                </div>      
+
+                <% @notes.each do |note| %>
+                    <tr>
+
+                        <td><%= note.id %></td>
+                        
+
+                        <% @teacher = Teacher.find_by(CF: note.CFprof)%>
+                        <td>
+                        <%= @teacher.name %>
+                        <%= @teacher.surname %>
+                        <br>
+                        </td>
+
+                        <td><%= note.date.strftime('%Y/%m/%d') %></td>
+
+                        <td class="details-popup">
+                            <button class="button-submit" onclick="popup('<%= escape_javascript(note.description) %>');"> details </button>
+
+                        </td>
+
+                        <% @justif = note.justified %>
+                        <td>
+                        <% if !@justif && $ofAge%>
+                            <%= form_with model: @student, url: student_justify_note_url, class: 'form-booked', method: :post do |form| %>
+                                <%= hidden_field_tag :CF, params[:CF] %>
+                                <%= hidden_field_tag :CFprof, params[:CFprof] %>
+                                <%= hidden_field_tag :id, note.id %>
+                                <%= form.submit "Justify", class: "button-submit" %>
+                            <% end %>
+                        <%end%>
+                        <br>
+                        </td>
+                  
+                    
+                    </tr>
+
+                <% end %>
+
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+</body>
+</html>
+
+    

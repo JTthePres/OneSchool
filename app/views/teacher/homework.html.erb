@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "teacher_homework.css" %>
+    <%= javascript_include_tag('teacher.js') %>
+
+    <title>Homework</title>
+</head>
+<body>
+    <nav class="navbar">
+        <%= link_to teacher_classroom_url(classroom: @classname), class: "link-profile no-underline" do %>
+            <div class="writ"> Classroom: 
+            <%= @classname %>
+            </div>
+        <% end %>
+        <%= link_to teacher_profile_url, class: "link-profile no-underline" do %>
+            <div class="profile">
+                Profile
+            </div>
+        <% end %>
+      </nav>
+    <div class="home-homework">
+        <label class="title-homework"> Homeworks </label>
+        <div class="whole-homework">
+            
+            <div class="homework-container">
+                <%= form_with url: teacher_managehomework_url, class: 'form-homework', method: :post do |form| %>
+                    <label class="homework-label">Insert a new absence</label>
+                    <%= hidden_field_tag :class_code, @classname %>
+                    <%= hidden_field_tag :CFprof, @teacher.CF %>
+                    <%= hidden_field_tag :school_code, @teacher.school_code %>
+                    <div class="homework-inner-form">
+                        <%= select_tag :subject_name, options_for_select(@subjects, @subject), id: "homework-field-subject" %>
+                        <div class="sym">
+                            <label class="homework-label-1"> Submission date  </label>
+                            <%= datetime_field_tag :date, id: 'homework-field-date' %>
+                        </div>
+                    </div>
+                    <label class="homework-label">Assignment name</label>
+                    <%= form.text_field :name, id: 'homework-field-name' %>
+                    <label class="homework-label">Assignment description</label>
+                    <%= form.text_area :text, size: "70x5", id: 'text-area' %>
+                    <%= hidden_field_tag :delivered, false %>
+                    <%= form.submit "Save homework", class: "button-submit" %>
+                    <% flash.each do |key, message| %>
+                        <div class="flash <%= key %>">
+                        <%= message %>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>  
+            <div class="homework-container-2">
+                <label class="title-homework-2">Inserted homeworks</label>
+                <% @homeworks.each do |homework| %>
+                  <div class="homework">
+                    <div class="homework-field-container">
+                      <label class="homework-label"><%= homework.subject_name %></label>
+                      <label class="homework-label"><%= homework.name %> </label>
+                      <label class="homework-label"><%= homework.date.strftime('%Y/%m/%d') %></label>
+                    </div>
+                    <div class="homework-text">
+                    <%= homework.text%>
+                    </div>
+                  </div>
+                <% end %> 
+            </div> 
+    </div>
+</body>
+</html>
